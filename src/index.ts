@@ -1,16 +1,20 @@
-import express, { Request, Response } from 'express'
+import express, { Express, Request, Response } from "express";
+import cors from "cors";
 
-const app = express()
-const port = process.env.PORT || 8080
+import loginRouter from "./router/loginRouter";
 
-app.get('/', (_req: Request, res: Response) => {
-	return res.send('Express Typescript on Vercel')
-})
+const app: Express = express();
+const port: number | string = process.env.PORT || 5000;
 
-app.get('/ping', (_req: Request, res: Response) => {
-	return res.send('pong 🏓')
-})
+app.use(express.json());
+app.use(cors());
+
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ SUCCESS: "Task Planer BE Module." });
+});
+
+app.use("/login", loginRouter);
 
 app.listen(port, () => {
-	return console.log(`Server is listening on ${port}`)
-})
+  console.log(`server is running on port ${port}`);
+});
