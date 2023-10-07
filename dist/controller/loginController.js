@@ -14,6 +14,7 @@ const loginUser = (req, res) => {
         }
         else {
             console.log("code fat gya", error);
+            res.status(404).json("code fat gya");
         }
     });
 };
