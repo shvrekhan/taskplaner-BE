@@ -1,4 +1,4 @@
 const query = {
-  create: "SELECT *",
+  create: "SELECT * FROM login",
 };
 export default query;
