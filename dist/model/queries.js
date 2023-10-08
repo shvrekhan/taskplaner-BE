@@ -1,7 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const query = {
-    create: "SELECT * FROM login",
+const authQuery = {
+    checkEmailInLoginTable: "SELECT * FROM login WHERE username = $1 or email = $2",
+    saveCredOnSignUp: "INSERT INTO login (user_id,first_name,last_name,email,username,password,created_at,last_login) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)",
 };
-exports.default = query;
+const CRUDQueries = {};
+module.exports = { authQuery, CRUDQueries };
 //# sourceMappingURL=queries.js.map

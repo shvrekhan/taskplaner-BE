@@ -13,7 +13,7 @@ app.use((0, cors_1.default)());
 app.get("/", (req, res) => {
     res.status(200).json({ SUCCESS: "Task Planer BE Module." });
 });
-app.use("/login", loginRouter_1.default);
+app.use("/auth", loginRouter_1.default);
 app.listen(port, () => {
     console.log(`server is running on port ${port}`);
 });

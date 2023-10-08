@@ -1,1 +1,1 @@
-{"version":3,"file":"loginRouter.js","sourceRoot":"","sources":["../../src/router/loginRouter.ts"],"names":[],"mappings":";;;;;AAAA,qCAAoD;AAEpD,oFAAsD;AAEtD,MAAM,WAAW,GAAW,IAAA,gBAAM,GAAE,CAAC;AAErC,WAAW,CAAC,IAAI,CAAC,GAAG,EAAE,yBAAS,CAAC,CAAC;AAEjC,kBAAe,WAAW,CAAC"}
+{"version":3,"file":"loginRouter.js","sourceRoot":"","sources":["../../src/router/loginRouter.ts"],"names":[],"mappings":";;;;;AAAA,qCAAoD;AAGpD,qGAAuE;AAEvE,MAAM,UAAU,GAAW,IAAA,gBAAM,GAAE,CAAC;AAEpC,UAAU,CAAC,IAAI,CAAC,SAAS,EAAE,0BAAU,CAAC,CAAC;AAEvC,kBAAe,UAAU,CAAC"}
