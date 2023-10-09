@@ -6,5 +6,6 @@ import signUpUser from "../controller/authController/signUpController";
 const authRouter: Router = Router();
 
 authRouter.post("/signUp", signUpUser);
+authRouter.post("/login",loginUser);
 
 export default authRouter;

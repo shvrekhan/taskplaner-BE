@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateAuthToken = exports.saveUserData = exports.generateUUID = exports.hashUserPassword = exports.checkIfUserExists = void 0;
+exports.mapUserInfoInResponseObject = exports.generateAuthToken = exports.saveUserData = exports.generateUUID = exports.hashUserPassword = exports.checkIfUserExists = void 0;
 const connection_1 = __importDefault(require("../model/connection"));
 let { authQuery } = require("../model/queries");
 let bcrypt = require("bcrypt");
@@ -22,7 +22,7 @@ const checkIfUserExists = (userInfo) => __awaiter(void 0, void 0, void 0, functi
     try {
         let { email, username } = userInfo;
         let users = yield connection_1.default.query(authQuery.checkEmailInLoginTable, [username, email]);
-        return users.rows.length > 0;
+        return users.rows;
     }
     catch (error) {
         console.error('Error checking if user exists:', error);
@@ -54,4 +54,16 @@ const generateAuthToken = (username) => {
     return jwt.sign({ username: username }, process.env.SECRET_KEY);
 };
 exports.generateAuthToken = generateAuthToken;
+const mapUserInfoInResponseObject = (userId, userInfo, last_login) => {
+    let { first_name, last_name, email, username } = userInfo;
+    return {
+        "userId": userId,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "username": username,
+        "last_login": last_login
+    };
+};
+exports.mapUserInfoInResponseObject = mapUserInfoInResponseObject;
 //# sourceMappingURL=commonRouterFunctions.js.map

@@ -8,7 +8,7 @@ export const checkIfUserExists = async (userInfo: { username: string, email: str
     try {
         let { email, username } = userInfo;
         let users = await pool.query(authQuery.checkEmailInLoginTable, [username, email]);
-        return users.rows.length > 0;
+        return users.rows;
     } catch (error) {
         console.error('Error checking if user exists:', error);
         throw error;
@@ -38,6 +38,14 @@ export const generateAuthToken = (username: string) => {
     return jwt.sign({ username: username }, process.env.SECRET_KEY)
 };
 
-
-
-
+export const mapUserInfoInResponseObject = (userId: string, userInfo: { first_name: string, last_name: string, email: string, username: string }, last_login: Date) => {
+    let { first_name, last_name, email, username } = userInfo;
+    return {
+        "userId": userId,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email,
+        "username": username,
+        "last_login": last_login
+    }
+}

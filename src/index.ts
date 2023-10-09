@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 
-import authRouter from "./router/loginRouter";
+import authRouter from "./router/authRouter";
 
 const app: Express = express();
 const port: number | string = process.env.PORT || 5000;

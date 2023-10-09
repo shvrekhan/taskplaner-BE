@@ -13,7 +13,7 @@ const commonRouterFunctions_1 = require("../commonRouterFunctions");
 const signUpUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let { first_name, last_name, email, username, password } = req.body;
-        let isUserPresent = yield (0, commonRouterFunctions_1.checkIfUserExists)(req.body);
+        let isUserPresent = (yield (0, commonRouterFunctions_1.checkIfUserExists)(req.body)).length;
         if (isUserPresent) {
             res.status(400).json("User already exists.");
         }
@@ -23,7 +23,8 @@ const signUpUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             const created_at = new Date;
             const user = yield (0, commonRouterFunctions_1.saveUserData)(userId, req.body, hashPassword, created_at);
             const token = (0, commonRouterFunctions_1.generateAuthToken)(username);
-            res.status(200).json({ accessToken: token });
+            const userInfo = (0, commonRouterFunctions_1.mapUserInfoInResponseObject)(userId, req.body, created_at);
+            res.status(200).json({ accessToken: token, user: userInfo });
         }
     }
     catch (error) {
