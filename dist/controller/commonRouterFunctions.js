@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mapUserInfoInResponseObject = exports.generateAuthToken = exports.saveUserData = exports.generateUUID = exports.hashUserPassword = exports.checkIfUserExists = void 0;
+exports.storeGeneratedTokenInDb = exports.mapUserInfoInResponseObject = exports.generateAuthToken = exports.saveUserData = exports.generateUUID = exports.hashUserPassword = exports.checkIfUserExists = void 0;
 const connection_1 = __importDefault(require("../model/connection"));
 let { authQuery } = require("../model/queries");
 let bcrypt = require("bcrypt");
@@ -66,4 +66,8 @@ const mapUserInfoInResponseObject = (userId, userInfo, last_login) => {
     };
 };
 exports.mapUserInfoInResponseObject = mapUserInfoInResponseObject;
+const storeGeneratedTokenInDb = (user_id, token) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield connection_1.default.query(authQuery.saveToken, [user_id, token,]);
+});
+exports.storeGeneratedTokenInDb = storeGeneratedTokenInDb;
 //# sourceMappingURL=commonRouterFunctions.js.map

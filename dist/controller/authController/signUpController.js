@@ -10,8 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const commonRouterFunctions_1 = require("../commonRouterFunctions");
+const schema_1 = require("../../schema/schema");
 const signUpUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { error } = schema_1.userSignUpSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({ error: error.details[0].message });
+        }
         let { first_name, last_name, email, username, password } = req.body;
         let isUserPresent = (yield (0, commonRouterFunctions_1.checkIfUserExists)(req.body)).length;
         if (isUserPresent) {
