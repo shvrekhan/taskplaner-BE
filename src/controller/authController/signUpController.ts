@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
-import Joi from "joi";
 import { checkIfUserExists, hashUserPassword, generateUUID, saveUserData, generateAuthToken, mapUserInfoInResponseObject } from "../commonRouterFunctions"
+import { userSignUpSchema } from "../../schema/schema";
+
 const signUpUser = async (req: Request, res: Response) => {
 
   try {
+    const { error } = userSignUpSchema.validate(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
     let { first_name, last_name, email, username, password } = req.body;
     let isUserPresent = (await checkIfUserExists(req.body)).length;
     if (isUserPresent) {
