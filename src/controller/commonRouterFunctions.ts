@@ -1,13 +1,14 @@
+import User from "../interface/authInterface";
 import pool from "../model/connection";
 let { authQuery } = require("../model/queries")
 let bcrypt = require("bcrypt");
 let { v4: uuidv4 } = require('uuid');
 let jwt = require("jsonwebtoken");
 
-export const checkIfUserExists = async (userInfo: { username: string, email: string }) => {
+export const checkIfUserExists = async (userInfo: { username: string, email: string }): Promise<User[]> => {
     try {
         let { email, username } = userInfo;
-        let users = await pool.query(authQuery.checkEmailInLoginTable, [username, email]);
+        let users: any = await pool.query(authQuery.checkEmailInLoginTable, [username, email]);
         return users.rows;
     } catch (error) {
         console.error('Error checking if user exists:', error);
@@ -48,4 +49,8 @@ export const mapUserInfoInResponseObject = (userId: string, userInfo: { first_na
         "username": username,
         "last_login": last_login
     }
+}
+
+export const storeGeneratedTokenInDb = async (user_id: string, token: string) => {
+    return await pool.query(authQuery.saveToken,[user_id,token,])
 }
