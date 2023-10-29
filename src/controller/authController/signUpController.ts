@@ -9,7 +9,7 @@ const signUpUser = async (req: Request, res: Response) => {
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
-    let { first_name, last_name, email, username, password } = req.body;
+    let { email, password } = req.body;
     let isUserPresent = (await checkIfUserExists(req.body)).length;
     if (isUserPresent) {
       res.status(400).json("User already exists.")
@@ -18,7 +18,7 @@ const signUpUser = async (req: Request, res: Response) => {
       const userId = generateUUID();
       const created_at = new Date;
       const user = await saveUserData(userId, req.body, hashPassword, created_at);
-      const token = generateAuthToken(username);
+      const token = generateAuthToken(email);
       const userInfo = mapUserInfoInResponseObject(userId, req.body, created_at);
       res.status(200).json({ accessToken: token, user: userInfo });
     }

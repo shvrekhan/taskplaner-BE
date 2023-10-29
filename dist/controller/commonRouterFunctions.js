@@ -20,8 +20,8 @@ let { v4: uuidv4 } = require('uuid');
 let jwt = require("jsonwebtoken");
 const checkIfUserExists = (userInfo) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let { email, username } = userInfo;
-        let users = yield connection_1.default.query(authQuery.checkEmailInLoginTable, [username, email]);
+        let { email } = userInfo;
+        let users = yield connection_1.default.query(authQuery.checkEmailInLoginTable, [email]);
         return users.rows;
     }
     catch (error) {
@@ -40,8 +40,8 @@ const generateUUID = () => {
 exports.generateUUID = generateUUID;
 const saveUserData = (userId, userInfo, hashPassword, created_at) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let { first_name, last_name, email, username } = userInfo;
-        let signInfo = yield connection_1.default.query(authQuery.saveCredOnSignUp, [userId, first_name, last_name, email, username, hashPassword, created_at, created_at]);
+        let { email } = userInfo;
+        let signInfo = yield connection_1.default.query(authQuery.saveCredOnSignUp, [userId, email, hashPassword, created_at, created_at]);
         return signInfo;
     }
     catch (error) {

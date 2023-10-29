@@ -17,7 +17,7 @@ const signUpUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (error) {
             return res.status(400).json({ error: error.details[0].message });
         }
-        let { first_name, last_name, email, username, password } = req.body;
+        let { email, password } = req.body;
         let isUserPresent = (yield (0, commonRouterFunctions_1.checkIfUserExists)(req.body)).length;
         if (isUserPresent) {
             res.status(400).json("User already exists.");
@@ -27,7 +27,7 @@ const signUpUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             const userId = (0, commonRouterFunctions_1.generateUUID)();
             const created_at = new Date;
             const user = yield (0, commonRouterFunctions_1.saveUserData)(userId, req.body, hashPassword, created_at);
-            const token = (0, commonRouterFunctions_1.generateAuthToken)(username);
+            const token = (0, commonRouterFunctions_1.generateAuthToken)(email);
             const userInfo = (0, commonRouterFunctions_1.mapUserInfoInResponseObject)(userId, req.body, created_at);
             res.status(200).json({ accessToken: token, user: userInfo });
         }

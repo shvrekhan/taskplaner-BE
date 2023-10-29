@@ -5,10 +5,10 @@ let bcrypt = require("bcrypt");
 let { v4: uuidv4 } = require('uuid');
 let jwt = require("jsonwebtoken");
 
-export const checkIfUserExists = async (userInfo: { username: string, email: string }): Promise<User[]> => {
+export const checkIfUserExists = async (userInfo: { email: string }): Promise<User[]> => {
     try {
-        let { email, username } = userInfo;
-        let users: any = await pool.query(authQuery.checkEmailInLoginTable, [username, email]);
+        let { email } = userInfo;
+        let users: any = await pool.query(authQuery.checkEmailInLoginTable, [email]);
         return users.rows;
     } catch (error) {
         console.error('Error checking if user exists:', error);
@@ -24,10 +24,10 @@ export const generateUUID = () => {
     return uuidv4();
 };
 
-export const saveUserData = async (userId: string, userInfo: { first_name: string, last_name: string, email: string, username: string }, hashPassword: string, created_at: Date) => {
+export const saveUserData = async (userId: string, userInfo: { email: string }, hashPassword: string, created_at: Date) => {
     try {
-        let { first_name, last_name, email, username } = userInfo;
-        let signInfo = await pool.query(authQuery.saveCredOnSignUp, [userId, first_name, last_name, email, username, hashPassword, created_at, created_at]);
+        let { email } = userInfo;
+        let signInfo = await pool.query(authQuery.saveCredOnSignUp, [userId, email, hashPassword, created_at, created_at]);
         return signInfo;
     } catch (error) {
         console.error("Error saving user info", error);
@@ -52,5 +52,5 @@ export const mapUserInfoInResponseObject = (userId: string, userInfo: { first_na
 }
 
 export const storeGeneratedTokenInDb = async (user_id: string, token: string) => {
-    return await pool.query(authQuery.saveToken,[user_id,token,])
+    return await pool.query(authQuery.saveToken, [user_id, token,])
 }

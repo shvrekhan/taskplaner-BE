@@ -1,11 +1,33 @@
-CREATE TABLE login(
+CREATE TABLE site_users (
   user_id UUID PRIMARY KEY NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  last_name VARCHAR(50),
-  email VARCHAR(100) UNIQUE NOT NULL,
-  username VARCHAR(50) UNIQUE NOT NULL,
-  password VARCHAR(100) NOT NULL,
-  created_at TIMESTAMP DEFAULT current_timestamp,
-  last_login TIMESTAMP
+  email_address VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_on DATE NOT NULL,
+  last_login DATE NOT NULL 
 );
 
+CREATE TABLE board (
+  id SERIAL PRIMARY KEY,
+  owners_user_id INT NOT NULL REFERENCES site_users(id),
+  name VARCHAR(255) NOT NULL,
+  is_public BOOLEAN NOT NULL,
+  created_on DATE NOT NULL
+);
+
+CREATE TABLE list (
+  id SERIAL PRIMARY KEY,
+  board_id INT NOT NULL REFERENCES board(id),
+  name VARCHAR(255) NOT NULL,
+  position INT NOT NULL
+);
+
+CREATE TABLE card (
+  id SERIAL PRIMARY KEY,
+  list_id INT NOT NULL REFERENCES list(id),
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_date DATE NOT NULL,
+  is_active BOOLEAN NOT NULL,
+  due_date DATE,
+  reminder_date DATE
+);
