@@ -13,7 +13,7 @@ app.use(express.json());
 app.get("/test", (req: Request, res: Response) => {
   res.status(200).json({ SUCCESS: "Task Planer BE Module." });
 });
-app.use(express.static('taskplaner-fe'))
+app.use('/', express.static('taskplaner-fe'))
 
 app.use("/auth", authRouter);
 
