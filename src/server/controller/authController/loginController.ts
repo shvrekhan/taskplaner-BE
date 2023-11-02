@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { checkIfUserExists, generateAuthToken } from "../commonRouterFunctions";
-import User from "../../interface/authInterface";
+import User from "../../server/interface/authInterface";
 const bcrypt = require("bcrypt");
 
 const loginUser = async (req: Request, res: Response) => {
