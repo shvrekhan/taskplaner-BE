@@ -10,7 +10,6 @@ const port: number | string = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// app.use('/', express.static('taskplaner-fe'))
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req, res) => {
