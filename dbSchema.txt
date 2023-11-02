@@ -1,6 +1,7 @@
 CREATE TABLE site_users (
   user_id UUID PRIMARY KEY NOT NULL,
   email_address VARCHAR(255) NOT NULL UNIQUE,
+  user_name VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   created_on DATE NOT NULL,
   last_login DATE NOT NULL 

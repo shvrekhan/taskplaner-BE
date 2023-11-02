@@ -4,11 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/server/index.js",
     "dev": "ts-node src/server/index.ts",
     "build": "tsc",
-    "vercel-build": "tsc --skipLibCheck"
+    "startdev": "nodemon ./src/server/index.ts"
   },
   "pre-commit": [
     "ts.check",

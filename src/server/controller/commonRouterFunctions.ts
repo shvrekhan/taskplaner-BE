@@ -24,10 +24,10 @@ export const generateUUID = () => {
     return uuidv4();
 };
 
-export const saveUserData = async (userId: string, userInfo: { email: string }, hashPassword: string, created_at: Date) => {
+export const saveUserData = async (userId: string, userInfo: { email: string, userName: string }, hashPassword: string, created_at: Date) => {
     try {
-        let { email } = userInfo;
-        let signInfo = await pool.query(authQuery.saveCredOnSignUp, [userId, email, hashPassword, created_at, created_at]);
+        let { email, userName } = userInfo;
+        let signInfo = await pool.query(authQuery.saveCredOnSignUp, [userId, email, userName, hashPassword, created_at, created_at]);
         return signInfo;
     } catch (error) {
         console.error("Error saving user info", error);

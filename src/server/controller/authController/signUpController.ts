@@ -9,7 +9,7 @@ const signUpUser = async (req: Request, res: Response) => {
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
-    let { email, password } = req.body;
+    let { email, password, userName } = req.body;
     let isUserPresent = (await checkIfUserExists(req.body)).length;
     if (isUserPresent) {
       res.status(400).json("User already exists.")
