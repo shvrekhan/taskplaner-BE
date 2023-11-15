@@ -5,6 +5,9 @@ const authQuery = {
 };
 
 const CRUDQueries = {
-
+  getAllBoards: "SELECT * FROM board WHERE owners_user_id = $1",
+  addBoard: "INSERT INTO board (id , owners_user_id,name,created_on) VALUES ($1,$2,$3,$4)",
+  removeBoard: "DELETE FROM board WHERE id = $1"
 }
+
 module.exports = { authQuery, CRUDQueries }
