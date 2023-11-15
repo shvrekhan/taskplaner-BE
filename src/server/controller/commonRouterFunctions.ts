@@ -1,9 +1,11 @@
 import User from "../interface/authInterface";
 import pool from "../model/connection";
-let { authQuery } = require("../model/queries")
+let { authQuery, CRUDQueries } = require("../model/queries")
 let bcrypt = require("bcrypt");
 let { v4: uuidv4 } = require('uuid');
 let jwt = require("jsonwebtoken");
+var cryptoJS = require('crypto-js');
+
 
 export const checkIfUserExists = async (userInfo: { email: string }): Promise<User[]> => {
     try {
@@ -36,15 +38,13 @@ export const saveUserData = async (userId: string, userInfo: { email: string, us
 };
 
 export const generateAuthToken = (username: string) => {
-    return jwt.sign({ username: username }, process.env.SECRET_KEY)
+    return jwt.sign({ username: username }, process.env.SECRET_KEY, { expiresIn: '24h' })
 };
 
-export const mapUserInfoInResponseObject = (userId: string, userInfo: { first_name: string, last_name: string, email: string, username: string }, last_login: Date) => {
-    let { first_name, last_name, email, username } = userInfo;
+export const mapUserInfoInResponseObject = (userId: string, userInfo: { email: string, username: string }, last_login: Date) => {
+    let { email, username } = userInfo;
     return {
-        "userId": userId,
-        "first_name": first_name,
-        "last_name": last_name,
+        "user_id": userId,
         "email": email,
         "username": username,
         "last_login": last_login
@@ -53,4 +53,55 @@ export const mapUserInfoInResponseObject = (userId: string, userInfo: { first_na
 
 export const storeGeneratedTokenInDb = async (user_id: string, token: string) => {
     return await pool.query(authQuery.saveToken, [user_id, token,])
+}
+
+export const encryptJwt = (value: string) => {
+    const encryptedJwt = cryptoJS.AES.encrypt(value.toString(), process.env.CRYPTO_SECRET_KEY).toString()
+    return encryptedJwt;
+}
+
+export const decryptJwt = (value: string) => {
+    console.log(value.toString().split('=')[1], "poiuytre")
+    const decryptJwt = cryptoJS.AES.decrypt(value.toString().split('=')[1], process.env.CRYPTO_SECRET_KEY);
+    // console.log(value, "     op   ", decryptJwt, "oiuyt")
+    return decryptJwt;
+}
+
+export const getAutCookie = (value: string, cookieName: string) => {
+    return value.split(';').find((currentCookie) => {
+        return currentCookie.trim().startsWith(cookieName + '=');
+    })
+
+}
+
+export const getAllBoardsFn = async (userId: string) => {
+    try {
+        let boards = await pool.query(CRUDQueries.getAllBoards, [userId]);
+        return boards.rows;
+    } catch (error) {
+        console.log("Checking if boars exist.");
+        throw error;
+    }
+}
+
+export const addBoardToDb = async (id: string, user_id: string, boardName: string, created_at: Date) => {
+    try {
+        let addedBoard = pool.query(CRUDQueries.addBoard, [id, user_id, boardName, created_at]);
+        return addedBoard;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+
+export const removeBoardFn = async (id: String) => {
+    try {
+        console.log("pooiuytyuity")
+        let removeBoard = await pool.query(CRUDQueries.removeBoard, [id]);
+        console.log(removeBoard, "okokokok");
+        return removeBoard;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
 }
